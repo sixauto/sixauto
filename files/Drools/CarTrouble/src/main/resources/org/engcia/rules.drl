@@ -1,0 +1,269 @@
+/*
+ * Copyright 2015 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
+
+package org.engcia;
+
+import org.engcia.model.Evidence;
+import org.engcia.model.Hypothesis;
+import org.engcia.model.Conclusion;
+import org.engcia.model.Fact;
+
+import function org.engcia.view.UI.answer;
+
+query "Conclusions"
+	$conclusion : Conclusion()
+end
+
+rule "P0340"
+	when
+		eval(answer(Evidence.P0340, "yes" ))
+	then
+		insert(new Hypothesis("Error code 1", "P0340"));
+end
+
+rule "IsSupported"
+	when
+		eval(answer(Evidence.P0340, "no" ))
+	then
+		insert(new Conclusion(Conclusion.UNKNOWN_PROBLEM));
+end
+
+rule "P0341"
+	when
+		Hypothesis( description == "Error code 1", value == "P0340")
+		eval(answer(Evidence.P0341, "yes"))
+	then
+		insert(new Hypothesis("Error code 2", "P0341"));
+end
+
+rule "P0342"
+	when
+		Hypothesis( description == "Error code 1", value == "P0340")
+		eval(answer(Evidence.P0342, "yes"))
+	then
+		insert(new Hypothesis("Error code 3", "P0342"));
+end
+
+rule "P0343"
+	when
+		Hypothesis( description == "Error code 1", value == "P0340")
+		eval(answer(Evidence.P0343, "yes"))
+	then
+		insert(new Hypothesis("Error code 4", "P0343"));
+end
+
+rule "IsFlow1"
+	when
+		Hypothesis( description == "Error code 2", value == "P0341") or
+		Hypothesis( description == "Error code 3", value == "P0342") or
+		Hypothesis( description == "Error code 4", value == "P0343")
+	then
+		insert(new Hypothesis("Flow Nr. 1", "1"));
+end
+
+rule "P0344"
+	when
+		Hypothesis( description == "Error code 1", value == "P0340")
+		not Hypothesis( description == "Flow Nr. 1", value ==  "1")
+		eval(answer(Evidence.P0344, "yes"))
+	then
+		insert(new Hypothesis("Error code 5", "P0344"));
+end
+
+rule "IsFlow2"
+	when
+		Hypothesis( description == "Error code 5", value == "P0344")
+	then
+		insert(new Hypothesis("Flow Nr. 2", "2"));
+end
+
+rule "IsBatteryF1"
+	when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		eval(answer(Evidence.BATTERY_VOLTAGE_BELOW_12V_14V, "yes"))
+	then
+		insert(new Conclusion(Conclusion.BATTERY_PROBLEM));
+end
+
+rule "IsntBatteryF1"
+	when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		eval(answer(Evidence.BATTERY_VOLTAGE_BELOW_12V_14V, "no"))
+	then
+		insert(new Hypothesis("Sensor voltage", "5 volts"));
+end
+
+rule "IsSensor5VF1"
+    when
+        Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "Sensor voltage", value == "5 volts")
+		eval(answer(Evidence.SENSOR_5V, "yes"))
+	then
+		insert(new Conclusion(Conclusion.SENSOR_PROBLEM_REPLACE));
+end
+
+rule "IsntSensor5VF1"
+    when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "Sensor voltage", value == "5 volts")
+		eval(answer(Evidence.SENSOR_5V, "no"))
+	then
+		insert(new Hypothesis("Sensor connection", "corrosion damage oil"));
+end
+
+rule "IsSensorCorrosionF1"
+    when
+        Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "Sensor connection", value == "corrosion damage oil")
+		eval(answer(Evidence.SENSOR_CORROSION_OIL, "yes"))
+	then
+		insert(new Conclusion(Conclusion.SENSOR_PROBLEM_CLEAN));
+end
+
+rule "IsntSensorCorrosionF1"
+    when
+        Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "Sensor connection", value == "corrosion damage oil")
+		eval(answer(Evidence.SENSOR_CORROSION_OIL, "no"))
+	then
+		insert(new Hypothesis("Multimeter verification", "short circuit"));
+end
+
+rule "IsSensorShortedF1"
+    when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "Multimeter verification", value == "short circuit")
+		eval(answer(Evidence.SHORT_CIRCUIT, "yes"))
+	then
+		insert(new Conclusion(Conclusion.SENSOR_PROBLEM_REPLACE));
+end
+
+rule "IsntSensorShortedF1"
+    when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "Multimeter verification", value == "short circuit")
+		eval(answer(Evidence.SHORT_CIRCUIT, "no"))
+	then
+		insert(new Hypothesis("cables", "missing disconnected"));
+end
+
+rule "AreCablesGoodF1"
+    when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "cables", value == "missing disconnected")
+		eval(answer(Evidence.CABLE_MISSING_DISCONNECTED, "yes"))
+	then
+		insert(new Conclusion(Conclusion.FAULTY_WIRES));
+end
+
+rule "ArentCablesGoodF1"
+    when
+		Hypothesis( description == "Flow Nr. 1", value == "1")
+		Hypothesis( description == "cables", value == "missing disconnected")
+		eval(answer(Evidence.CABLE_MISSING_DISCONNECTED, "no"))
+	then
+		insert(new Conclusion(Conclusion.FAULTY_ECU));
+end
+
+rule "IsSensorCorrosionF2"
+    when
+        Hypothesis( description == "Flow Nr. 2", value == "2")
+		eval(answer(Evidence.SENSOR_CORROSION, "yes"))
+	then
+		insert(new Conclusion(Conclusion.SENSOR_PROBLEM_CLEAN));
+end
+
+rule "IsntSensorCorrosionF2"
+    when
+        Hypothesis( description == "Flow Nr. 2", value == "2")
+		eval(answer(Evidence.SENSOR_CORROSION, "no"))
+	then
+		insert(new Hypothesis("Multimeter verification", "5-volt power"));
+end
+
+rule "Is5VF2"
+    when
+		Hypothesis( description == "Flow Nr. 2", value == "2")
+		Hypothesis( description == "Multimeter verification", value == "5-volt power")
+		eval(answer(Evidence.SENSOR_5V, "yes"))
+	then
+		insert(new Hypothesis( "5V Ignition ON Connector Off", "5V-IO-CO"));
+end
+
+rule "Isnt5VF2"
+    when
+		Hypothesis( description == "Flow Nr. 2", value == "2")
+		Hypothesis( description == "Multimeter verification", value == "5-volt power")
+		eval(answer(Evidence.SENSOR_5V, "no"))
+	then
+        insert(new Conclusion(Conclusion.INCOMPLETE_WIRING));
+        insert(new Conclusion(Conclusion.ECU_ERROR));
+        insert(new Conclusion(Conclusion.ECU_NOT_PLUGGED));
+        insert(new Conclusion(Conclusion.BATTERY_PROBLEM));
+end
+
+rule "Is5V-IO-COF2"
+    when
+		Hypothesis( description == "Flow Nr. 2", value == "2")
+		Hypothesis( description == "5V Ignition ON Connector Off", value == "5V-IO-CO")
+		eval(answer(Evidence.SENSOR_5V_IGNITION_ON_CONNECTOR_UNPLUGGED, "yes"))
+	then
+		insert(new Hypothesis( "Ground Wire Grounded", "Ground Check"));
+end
+
+rule "Isnt5V-IO-COF2"
+    when
+		Hypothesis( description == "Flow Nr. 2", value == "2")
+		Hypothesis( description == "5V Ignition ON Connector Off", value == "5V-IO-CO")
+		eval(answer(Evidence.SENSOR_5V_IGNITION_ON_CONNECTOR_UNPLUGGED, "no"))
+	then
+        insert(new Conclusion(Conclusion.INCOMPLETE_WIRING));
+        insert(new Conclusion(Conclusion.ECU_ERROR));
+        insert(new Conclusion(Conclusion.ECU_NOT_PLUGGED));
+        insert(new Conclusion(Conclusion.BATTERY_PROBLEM));
+end
+
+rule "IsSensorDamagedF2"
+    when
+		Hypothesis( description == "Flow Nr. 2", value == "2")
+		Hypothesis( description == "Ground Wire Grounded", value == "Ground Check")
+		eval(answer(Evidence.GROUND_WIRE_GROUNDED, "yes"))
+	then
+		insert(new Conclusion(Conclusion.SENSOR_DAMAGED));
+end
+
+rule "IsntSensorDamagedF2"
+    when
+		Hypothesis( description == "Flow Nr. 2", value == "2")
+		Hypothesis( description == "Ground Wire Grounded", value == "Ground Check")
+		eval(answer(Evidence.GROUND_WIRE_GROUNDED, "no"))
+	then
+        insert(new Conclusion(Conclusion.INCOMPLETE_WIRING));
+        insert(new Conclusion(Conclusion.ECU_ERROR));
+        insert(new Conclusion(Conclusion.ECU_NOT_PLUGGED));
+        insert(new Conclusion(Conclusion.BATTERY_PROBLEM));
+end
+
+rule "unknown_problem"
+	when
+		not Conclusion()
+	then
+		Conclusion c = new Conclusion(Conclusion.UNKNOWN_PROBLEM);
+		insert(c);
+end
+
+query "evidence"(String ev, String v)
+	e : Evidence( evidence == ev, value == v )
+end
