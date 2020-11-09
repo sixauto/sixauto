@@ -9,160 +9,162 @@ regra 1
 	se [sintoma(C, P0340, long_engine_cranking_time) ou sintoma(C, P0340, sharp_acceleration) ou
 	sintoma(C, P0340, engine_starts_without_problems) ou sintoma(C,P0340, hard_shifting) ou
 	sintoma(C, P0340, engine_light_is_on) ou sintoma(C, P0340, engine_in_rough_idle)]
-	entao [cria_facto(cdiagnostico(C, P0341))]
+	entao [cria_facto(cdiagnostico(C, P0341))].
 
 regra 2
 	se [sintoma(C, P0340, long_engine_cranking_time) ou sintoma(C, P0340, sharp_acceleration) ou
 	sintoma(C, P0340, engine_starts_withouth_problems) ou sintoma(C,P0340, hard_shifting) ou
 	sintoma(C, P0340, engine_light_is_on) ou sintoma(C, P0340, engine_in_rough_idle)]
-	entao [cria_facto(cdiagnostico(C, P0342))]
+	entao [cria_facto(cdiagnostico(C, P0342))].
 
 regra 3
 	se [sintoma(C, P0340, long_engine_cranking_time) ou sintoma(C, P0340, sharp_acceleration) ou
 	sintoma(C, P0340, engine_starts_withouth_problems) ou sintoma(C,P0340, hard_shifting) ou
 	sintoma(C, P0340, engine_light_is_on) ou sintoma(C, P0340, engine_in_rough_idle)]
-	entao [cria_facto(cdiagnostico(C, P0343))]
+	entao [cria_facto(cdiagnostico(C, P0343))].
 
 regra 4
 	se [sintoma(C, P0340, engine_light_is_on) ou sintoma(C, P0340, engine_in_rough_idle) ou
 	sintoma(C, P0340, hard_engine_starting_condition) ou sintoma(C, P340, engine_dies_suddenly)
 	ou sintoma(C, P0340, loss_power_in_engine)]
-	entao [cria_facto(cdiagnostico(C, P0344)]
+	entao [cria_facto(cdiagnostico(C, P0344))].
 
 regra 5
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,<,12) e bepoff(C,<,14))]
-	entao [cria_facto(problema(C, battery_problem)]
+	entao [cria_facto(problema(C, battery_problem))].
 
 regra 6
 	se [problema(C, battery_problem)]
-	entao [cria_facto(solucao(C, charge_or_replace_battery)]
+	entao [cria_facto(solucao(C, charge_or_replace_battery))].
 
 regra 7
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e measurementV(C,5))]
-	entao [cria_facto(problema(C, sensor_has_a_problem))]
+	entao [cria_facto(problema(C, sensor_has_a_problem))].
 
 regra 8
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e measurementV(C,5))]
-	entao [cria_facto(solucao(C, replace_CMP_sensor))]
+	entao [cria_facto(solucao(C, replace_CMP_sensor))].
 
 regra 9
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5) e corrosion(C, yes))]
-	entao [cria_facto(problema(C, sensor_has_a_problem))]
+	entao [cria_facto(problema(C, sensor_has_a_problem))].
 
 regra 10
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5) e corrosion(C, yes))]
-	entao [cria_facto(solucao(C, clean_sensor_with_electric_cleaner))]
+	entao [cria_facto(solucao(C, clean_sensor_with_electric_cleaner))].
 
 regra 11
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5)) e corrosion(C, no) e shortcircuit(P, yes)]
-	entao [cria_facto(problema(C, sensor_has_problem))]
+	entao [cria_facto(problema(C, sensor_has_problem))].
 
 regra 12
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
 	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5)) e corrosion(C, no) e shortcircuit(C, yes)]
-	entao [cria_facto(solucao(C, replace_CMP_sensor))]
+	entao [cria_facto(solucao(C, replace_CMP_sensor))].
 
 regra 13
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
-	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5) ecorrosion(C, no) e shortcircuit(C, no) e cable(C, yes))]
-	entao [cria_facto(problema(C, faulty_wires_between_camshaft_position_sensor_and_ECU))]
+	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5) e corrosion(C, no) e shortcircuit(C, no) e cable(C, yes))]
+	entao [cria_facto(problema(C, faulty_wires_between_camshaft_position_sensor_and_ECU))].
 
 regra 14
 	se [problema(C, faulty_wires_between_camshaft_position_sensor_and_ECU)]
-	entao [cria_facto(solucao(C, replace_wires_between_the_sensor_and_the_ECU))]
+	entao [cria_facto(solucao(C, replace_wires_between_the_sensor_and_the_ECU))].
 
 regra 15
 	se [cdiagnostico(C, P0341) ou cdiagnostico(C, P0342) ou cdiagnostico(C, P0343) e 
-	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5) ecorrosion(C, no) e shortcircuit(C, no) e cable(C, no))]
-	entao [cria_facto(problema(C, Control_unit_Faulty))]
+	diagnostico(bepon(C,>=,12) e bepoff(C,>=,14) e nao measurementV(C,5) e corrosion(C, no) e shortcircuit(C, no) e cable(C, no))]
+	entao [cria_facto(problema(C, Control_unit_Faulty))].
 
 regra 16
 	se [problema(C, Control_unit_Faulty)]
-	entao [cria_facto(solucao(C, replace_unit))]
+	entao [cria_facto(solucao(C, replace_unit))].
 
 regra 17
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, yes))]
-	entao [cria_facto(problema(C, sensor_has_problem))]
+	entao [cria_facto(problema(C, sensor_has_problem))].
 
 regra 18
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, yes))]
-	entao [cria_facto(solucao(C, clean_sensor_with_electric_cleaner))]
+	entao [cria_facto(solucao(C, clean_sensor_with_electric_cleaner))].
 
 regra 19
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C, 5) e ground(C, yes))]
-	entao [cria_facto(problema(C, camshaft_position_sensor_damaged))]
+	entao [cria_facto(problema(C, camshaft_position_sensor_damaged))].
 
 regra 20
 	se [problema(C, camshaft_position_sensor_damaged)]
-	entao [cria_facto(solucao(C, substitute_camshaft_position))]
+	entao [cria_facto(solucao(C, substitute_camshaft_position))].
 
 regra 21
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,!=, 5))]
-	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))]
+	se [cdiagnostico(C, P0344) e diagnostico(corrosion(C, no) e measurementV(C,\==, 5))]
+	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))].
 
 regra 22
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,!=,5))]
-	entao [cria_facto(problema(C, ECU_Error))]
-	
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,\==,5))]
+	entao [cria_facto(problema(C, ECU_Error))].
+
 regra 23
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,!=, 5))]
-	entao [cria_facto(problema(C, ECU_not_plugged))]
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,\==, 5))]
+	entao [cria_facto(problema(C, ECU_not_plugged))].
 
 regra 24
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,!=, 5))]
-	entao [cria_facto(problema(C, low_battery_voltage))]
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,\==, 5))]
+	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 25
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,!=,5))]
-	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))]
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,\==,5))]
+	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))].
 
 regra 26
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,!=,5))]
-	entao [cria_facto(problema(C, ECU_Error))]
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,\==,5))]
+	entao [cria_facto(problema(C, ECU_Error))].
 	
 regra 27
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,!=,5))]
-	entao [cria_facto(problema(C, ECU_not_plugged))]
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,\==,5))]
+	entao [cria_facto(problema(C, ECU_not_plugged))].
 
 regra 28
-	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,!=,5))]
-	entao [cria_facto(problema(C, low_battery_voltage))]
+	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C, 5) e signalwire(C,\==,5))]
+	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 29
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,5) e signalwire(C,5) e ground(C, no))]
-	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))]
+	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))].
 
 regra 30
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,5) e signalwire(C,5) e ground(C, no))]
-	entao [cria_facto(problema(C, ECU_Error))]
+	entao [cria_facto(problema(C, ECU_Error))].
 	
 regra 31
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,5) e signalwire(C,5) e ground(C, no))]
-	entao [cria_facto(problema(C, ECU_not_plugged))]
+	entao [cria_facto(problema(C, ECU_not_plugged))].
 
 regra 32
 	se [cdiagnostico(C, P0344) e diagnostico( corrosion(C, no) e measurementV(C,5) e signalwire(C,5) e ground(C, no))]
-	entao [cria_facto(problema(C, low_battery_voltage))]
+	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 33
 	se [problema(C, incomplete_wiring_camshaft_position)]
-	entao [cria_facto(solucao(C, replace_or_add_wires_between_the_sensor_to_ECU))]
+	entao [cria_facto(solucao(C, replace_or_add_wires_between_the_sensor_to_ECU))].
 
 regra 34
 	se [problema(C, ECU_Error)]
-	entao [cria_facto(solucao(C, replace_ECU_or_flash_system))]
+	entao [cria_facto(solucao(C, replace_ECU_or_flash_system))].
 
 regra 35
 	se [problema(C, ECU_not_plugged)]
-	entao [cria_facto(solucao(C, plug_ECU))]
+	entao [cria_facto(solucao(C, plug_ECU))].
 
 regra 36
 	se [problema(C, low_battery_voltage)]
-	entao [cria_facto(solucao(C, charge_or_replace_car_battery))]
+	entao [cria_facto(solucao(C, charge_or_replace_car_battery))].
 
+facto(1, sintoma(s1, P0340, long_engine_cranking_time)).
+facto(2, sintoma(s1, P0340, hard_shifting)).
