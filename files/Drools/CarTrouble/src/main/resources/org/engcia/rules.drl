@@ -18,12 +18,17 @@ package org.engcia;
 import org.engcia.model.Evidence;
 import org.engcia.model.Hypothesis;
 import org.engcia.model.Conclusion;
+import org.engcia.model.Symptom;
 import org.engcia.model.Fact;
 
 import function org.engcia.view.UI.answer;
 
 query "Conclusions"
 	$conclusion : Conclusion()
+end
+
+query "Symptoms"
+	$symptom : Symptom()
 end
 
 rule "P0340"
@@ -87,6 +92,13 @@ rule "IsFlow2"
 		Hypothesis( description == "Error code 5", value == "P0344")
 	then
 		insert(new Hypothesis("Flow Nr. 2", "2"));
+end
+
+rule "SymptomHandling"
+    when
+        eval(answer(Symptom.SHARP_ACCELERATION, "yes"))
+    then
+        insert(new Symptom(Symptom.SHARP_ACCELERATION, "yes"));
 end
 
 rule "IsBatteryF1"

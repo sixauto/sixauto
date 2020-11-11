@@ -28,7 +28,6 @@ public class How {
             StringBuilder sb = new StringBuilder();
             Justification j = justifications.get(factNumber);
             if (j != null) { // justification for Fact factNumber was found
-                sb.append("\n\n=== How did we reach this conclusion? ===\n");
                 sb.append(getIdentation(level));
                 sb.append("'" + j.getConclusion() + "'" + " was obtained by rule " + j.getRuleName() + " because");
                 sb.append('\n');
