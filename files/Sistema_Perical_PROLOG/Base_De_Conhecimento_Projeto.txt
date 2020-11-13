@@ -1,7 +1,41 @@
 :-dynamic facto/2,ultimo_facto/1.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Metaconhecimento
 
-ultimo_facto(2).
+facto_dispara_regras(codigo(_, p0340), [1, 2, 3, 4]).
+facto_dispara_regras(sintoma(_, long_engine_cranking_time), [1, 2, 3]).
+facto_dispara_regras(sintoma(_, sharp_acceleration), [1, 2, 3]).
+facto_dispara_regras(sintoma(_, engine_starts_without_problems), [1, 2, 3]).
+facto_dispara_regras(sintoma(_, hard_shifting), [1, 2, 3]).
+facto_dispara_regras(sintoma(_, engine_light_is_on), [1, 2, 3, 4]).
+facto_dispara_regras(sintoma(_, engine_in_rough_idle), [1, 2, 3, 4]).
+facto_dispara_regras(sintoma(_, hard_engine_starting_condition), [4]).
+facto_dispara_regras(sintoma(_, engine_dies_suddenly), [4]).
+facto_dispara_regras(sintoma(_, loss_power_in_engine), [4]).
+facto_dispara_regras(codiagnostico(_, p0341), [5, 7, 8, 9, 10, 11, 12, 13, 15]).
+facto_dispara_regras(codiagnostico(_, p0342), [5, 7, 8, 9, 10, 11, 12, 13, 15]).
+facto_dispara_regras(codiagnostico(_, p0343), [5, 7, 8, 9, 10, 11, 12, 13, 15]).
+facto_dispara_regras(codiagnostico(_, p0344), [17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]).
+facto_dispara_regras(bepoff(_,_), [5, 7, 8, 9, 10, 11, 12, 13, 15]).
+facto_dispara_regras(bepon(_,_), [5, 7, 8, 9, 10, 11, 12, 13, 15]).
+facto_dispara_regras(measurementV(_,_), [7, 8, 9, 10, 11, 12, 13, 15, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]).
+facto_dispara_regras(corrosion(_,_), [9, 10, 11, 12, 13, 15, 17, 18, 19, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]).
+facto_dispara_regras(shortcircuit(_,_), [11, 12, 13, 15]).
+facto_dispara_regras(cable(_,_), [13, 15]).
+facto_dispara_regras(problema(_, faulty_wires_between_camshaft_position_sensor_and_ECU), [14]).
+facto_dispara_regras(problema(_, control_unit_Faulty), [16]).
+facto_dispara_regras(signalwire(_,_), [19, 25, 26, 27, 28, 29, 30, 31, 32]).
+facto_dispara_regras(ground(_,_), [19, 29, 30, 31, 32]).
+facto_dispara_regras(problema(_, camshaft_position_sensor_damaged), [20]).
+facto_dispara_regras(problema(_, incomplete_wiring_camshaft_position), [33]).
+facto_dispara_regras(problema(_, ecu_Error), [34]).
+facto_dispara_regras(problema(_, ecu_not_plugged), [35]).
+facto_dispara_regras(problema(_, low_battery_voltage), [36]).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ultimo_facto(3).
 % ultima_regra(36).
 
 
@@ -166,6 +200,12 @@ regra 36
 	se [problema(C, low_battery_voltage)]
 	entao [cria_facto(solucao(C, charge_or_replace_car_battery))].
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Factos
+
 facto(1,codigo(meu_diagnostico, p0340)).
 facto(2,sintoma(meu_diagnostico, long_engine_cranking_time)).
 facto(3,sintoma(meu_diagnostico, hard_shifting)).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
