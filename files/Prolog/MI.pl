@@ -13,9 +13,8 @@
 
 
 carrega_bc:-
-		write('NOME DA BASE DE CONHECIMENTO (terminar com .)-> '),
-		read(NBC),
-		consult(NBC).
+		absolute_file_name('BC.pl', X, [mode(read)]),
+		consult(X).
 
 arranca_motor:-	facto(N,Facto),
 		facto_dispara_regras1(Facto, LRegras),

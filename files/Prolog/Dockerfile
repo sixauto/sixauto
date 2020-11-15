@@ -1,3 +1,4 @@
 FROM swipl
 VOLUME [ "/app" ]
-CMD ["swipl", "/app/MI.pl", "/app/BC.txt"]
+EXPOSE 8000
+CMD ["swipl", "/app/MI.pl", "/app/BC.pl", "/app/web.pl"]
