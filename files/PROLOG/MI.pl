@@ -51,6 +51,12 @@ facto_esta_numa_condicao(F,[avalia(F1)  e _]):- F=..[H,H1|_],F1=..[H,H1|_].
 
 facto_esta_numa_condicao(F,[_ e Fs]):- facto_esta_numa_condicao(F,[Fs]).
 
+facto_esta_numa_condicao(F,[F  ou _]).
+
+facto_esta_numa_condicao(F,[avalia(F1)  ou _]):- F=..[H;H1|_],F1=..[H;H1|_].
+
+facto_esta_numa_condicao(F,[_ ou Fs]):- facto_esta_numa_condicao(F,[Fs]).
+
 facto_esta_numa_condicao(F,[F]).
 
 facto_esta_numa_condicao(F,[avalia(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
