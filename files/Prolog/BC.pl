@@ -33,7 +33,7 @@ facto_dispara_regras(problema(_, low_battery_voltage), [43]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-ultimo_facto(3).
+ultimo_facto(8).
 % ultima_regra(36).
 
 

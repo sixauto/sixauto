@@ -8,15 +8,13 @@
 :-op(240,fx,regra).
 :-op(500,fy,nao).
 :-op(600,xfy,e).
-:-op(700,xfy,ou).
 
 :-dynamic justifica/3.
 
 
 carrega_bc:-
-		write('NOME DA BASE DE CONHECIMENTO (terminar com .)-> '),
-		read(NBC),
-		consult(NBC).
+		absolute_file_name('BC.pl', X, [mode(read)]),
+		consult(X).
 
 arranca_motor:-	facto(N,Facto),
 		facto_dispara_regras1(Facto, LRegras),
@@ -77,14 +75,12 @@ verifica_condicoes([nao X],[nao X]):- !, \+ facto(_,X).
 verifica_condicoes([X],[N]):- facto(N,X).
 
 
-
 concluir([cria_facto(F)|Y],ID,LFactos):-
 	!,
 	cria_facto(F,ID,LFactos),
 	concluir(Y,ID,LFactos).
 
 concluir([],_,_):-!.
-
 
 
 cria_facto(F,_,_):-
@@ -96,9 +92,7 @@ cria_facto(F,ID,LFactos):-
 	asserta(ultimo_facto(N)),
 	assertz(justifica(N,ID,LFactos)),
 	assertz(facto(N,F)),
-	write('Foi concluído o facto nº '),write(N),write(' -> '),write(F),get0(_),!.
-
-
+	write('Foi concluido o facto nï¿½ '),write(N),write(' -> '),write(F),get0(_),!.
 
 diagnostico(N,P):-	P=..[Functor,Entidade,Operando,Valor],
 		P1=..[Functor,Entidade,Valor1],
@@ -111,7 +105,6 @@ compara(V1,>,V):-V1>V.
 compara(V1,<,V):-V1<V.
 compara(V1,>=,V):-V1>=V.
 compara(V1,=<,V):-V1=<V.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Visualizaï¿½ï¿½o da base de factos
@@ -141,10 +134,10 @@ como(N):-facto(N,F),
 
 
 escreve_factos([I|R]):-facto(I,F), !,
-	write('O facto nº '),write(I),write(' -> '),write(F),write(' é verdadeiro'),nl,
+	write('O facto nï¿½ '),write(I),write(' -> '),write(F),write('Verdadeiro'),nl,
 	escreve_factos(R).
 escreve_factos([I|R]):-
-	write('A condição '),write(I),write(' é verdadeira'),nl,
+	write('A condicao '),write(I),write('Verdadeira'),nl,
 	escreve_factos(R).
 escreve_factos([]).
 
@@ -152,9 +145,6 @@ explica([I|R]):- \+ integer(I),!,explica(R).
 explica([I|R]):-como(I),
 		explica(R).
 explica([]):-	write('********************************************************'),nl.
-
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Geraï¿½ï¿½o de explicaï¿½ï¿½es do tipo "Porque nao"
@@ -238,7 +228,6 @@ explica_porque_nao([P|LPF],Nivel):-
 formata(Nivel):-
 	Esp is (Nivel-1)*5, tab(Esp).
 
-
 %alteraï¿½oes *nuno
 retirar_facto(K):- retract(facto(K,_)),
 		findall(K1,(justifica((K1,_,L),member(K,L),retract(justifica(K1,_,_)),LK1))),
@@ -246,5 +235,3 @@ retirar_facto(K):- retract(facto(K,_)),
 
 retirar_lista_factos([N|NL]):-retirar_facto(N),retirar_lista_factos(NL).
 retirar_lista_factos([]).
-
-
