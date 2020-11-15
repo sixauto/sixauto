@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
-import org.engcia.model.Hypothesis;
+import org.engcia.model.Symptom;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -53,8 +54,13 @@ public class CarTrouble {
 
                 @Override
                 public void rowInserted(Row row) {
-                    System.out.println("ENTREI NO LISTENER");
                     Conclusion conclusion = (Conclusion) row.get("$conclusion");
+
+                    if(conclusion.getDescription().equals(Conclusion.UNKNOWN_PROBLEM)){
+                        System.out.println(Conclusion.UNKNOWN_PROBLEM);
+                        System.exit(0);
+                    }
+
                     System.out.println("\n");
                     System.out.println(">>>" + conclusion.toString());
 
@@ -68,9 +74,8 @@ public class CarTrouble {
 
                     if (answer.equals("yes")){
                         How how = new How(CarTrouble.justifications);
-                        System.out.println(how.getHowExplanation(conclusion.getId()));
+                        how.getHowExplanation();
                     }
-                    //System.out.println(CarTrouble.justifications);
 
                     // stop inference engine after as soon as got a conclusion
                     kSession.halt();
@@ -85,29 +90,9 @@ public class CarTrouble {
 
             LiveQuery query = kSession.openLiveQuery("Conclusions", null, listenerConclusions);
 
-            // Query listener
-            ViewChangedEventListener listenerSymptoms = new ViewChangedEventListener() {
-                @Override
-                public void rowDeleted(Row row) {
-                }
-
-                @Override
-                public void rowInserted(Row row) {
-                    System.out.println("ENTREI NO LISTENER DOS SYMPTOMS");
-                    kSession.insert(new Hypothesis("Flow Nr. 2", "2"));
-
-                }
-
-                @Override
-                public void rowUpdated(Row row) {
-                }
-
-            };
-
-            LiveQuery query2 = kSession.openLiveQuery("Symptoms", null, listenerSymptoms);
-
-
             System.out.println("\nRunning Six@uto expert system...\n\n");
+
+            UI.askUserForErrorCodes();
             kSession.fireAllRules();
 
             // kSession.fireUntilHalt();

@@ -16,22 +16,23 @@ public class Symptom {
     public static final String ENGINE_DIES_SUDDENLY = "Engine dies suddenly";
     public static final String LOSS_POWER_ENGINE = "Loss of power in the engine";
 
-    private String description;
     private String value;
-    public Symptom(String description, String value) {
-        this.description = description;
-        this.value = value;
-    }
+    private String flow;
 
-    public String getDescription() {
-        return description;
+    public Symptom(String value, String flow) {
+        this.value = value;
+        this.flow = flow;
     }
 
     public String getValue() {
         return value;
     }
 
+    public String getFlow() {
+        return flow;
+    }
+
     public String toString() {
-        return (description + " = " + value);
+        return (value);
     }
 }

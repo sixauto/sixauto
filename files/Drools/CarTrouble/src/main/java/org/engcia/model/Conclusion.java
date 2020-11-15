@@ -2,6 +2,8 @@ package org.engcia.model;
 
 import org.engcia.CarTrouble.CarTrouble;
 
+import java.util.Objects;
+
 public class Conclusion extends Fact{
     public static final String BATTERY_PROBLEM = "Your battery has a problem! Charge or Replace your car battery.";
     public static final String SENSOR_PROBLEM_REPLACE = "Your sensor has a problem! Replace your CMP Sensor.";
@@ -29,4 +31,16 @@ public class Conclusion extends Fact{
         return ("Conclusion: " + description);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Conclusion)) return false;
+        Conclusion that = (Conclusion) o;
+        return getDescription().equals(that.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDescription());
+    }
 }
