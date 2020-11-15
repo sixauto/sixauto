@@ -1,3 +1,3 @@
 FROM swipl
-COPY . /app
+VOLUME [ "/app" ]
 CMD ["swipl"]

@@ -7,9 +7,7 @@
 :-op(35,xfy,se).
 :-op(240,fx,regra).
 :-op(500,fy,nao).
-:-op(500,xfx,ou).
 :-op(600,xfy,e).
-:-op(700,xfy,ou).
 
 :-dynamic justifica/3.
 
@@ -52,12 +50,6 @@ facto_esta_numa_condicao(F,[diagnostico(F1)  e _]):- F=..[H,H1|_],F1=..[H,H1|_].
 
 facto_esta_numa_condicao(F,[_ e Fs]):- facto_esta_numa_condicao(F,[Fs]).
 
-facto_esta_numa_condicao(F,[F  ou _]).
-
-facto_esta_numa_condicao(F,[avalia(F1)  ou _]):- F=..[H;H1|_],F1=..[H;H1|_].
-
-facto_esta_numa_condicao(F,[_ ou Fs]):- facto_esta_numa_condicao(F,[Fs]).
-
 facto_esta_numa_condicao(F,[F]).
 
 facto_esta_numa_condicao(F,[diagnostico(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
@@ -84,14 +76,12 @@ verifica_condicoes([nao X],[nao X]):- !, \+ facto(_,X).
 verifica_condicoes([X],[N]):- facto(N,X).
 
 
-
 concluir([cria_facto(F)|Y],ID,LFactos):-
 	!,
 	cria_facto(F,ID,LFactos),
 	concluir(Y,ID,LFactos).
 
 concluir([],_,_):-!.
-
 
 
 cria_facto(F,_,_):-
