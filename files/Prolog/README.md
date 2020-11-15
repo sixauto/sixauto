@@ -4,7 +4,9 @@
 
 docker build -t sixauto_prolog .
 docker run -it -v "local_path"/sixauto/files/Prolog:/app sixauto_prolog
-consult('/app/MI.pl').
-carrega_bc.
-NOME DA BASE DE CONHECIMENTO (terminar com .)-> '/app/BC.txt'.
 arranca_motor.
+mostra_factos.
+
+## Web Server
+
+server(8000).
