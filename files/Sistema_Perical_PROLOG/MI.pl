@@ -96,7 +96,7 @@ cria_facto(F,ID,LFactos):-
 	asserta(ultimo_facto(N)),
 	assertz(justifica(N,ID,LFactos)),
 	assertz(facto(N,F)),
-	write('Foi concluï¿½do o facto nï¿½ '),write(N),write(' -> '),write(F),get0(_),!.
+	write('Foi concluído o facto nº '),write(N),write(' -> '),write(F),get0(_),!.
 
 
 
@@ -141,10 +141,10 @@ como(N):-facto(N,F),
 
 
 escreve_factos([I|R]):-facto(I,F), !,
-	write('O facto nï¿½ '),write(I),write(' -> '),write(F),write(' ï¿½ verdadeiro'),nl,
+	write('O facto nº '),write(I),write(' -> '),write(F),write(' é verdadeiro'),nl,
 	escreve_factos(R).
 escreve_factos([I|R]):-
-	write('A condiï¿½ï¿½o '),write(I),write(' ï¿½ verdadeira'),nl,
+	write('A condição '),write(I),write(' é verdadeira'),nl,
 	escreve_factos(R).
 escreve_factos([]).
 
