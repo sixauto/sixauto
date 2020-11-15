@@ -1,3 +1,3 @@
 FROM swipl
 VOLUME [ "/app" ]
-CMD ["swipl"]
+CMD ["swipl", "/app/MI.pl"]
