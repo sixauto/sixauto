@@ -98,23 +98,23 @@ regra 15
 	entao [cria_facto(solucao(C, replace_CMP_sensor))].
 
 regra 16
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e diagnostico(corrosion(C, yes))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, yes)]
 	entao [cria_facto(problema(C, sensor_has_a_problem))].
 
 regra 17
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e diagnostico(corrosion(C, yes))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, yes)]
 	entao [cria_facto(solucao(C, clean_sensor_with_electric_cleaner))].
 
 regra 18
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e diagnostico(corrosion(C, no)) e diagnostico(shortcircuit(C, yes))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, no) e shortcircuit(C, yes)]
 	entao [cria_facto(problema(C, sensor_has_problem))].
 
 regra 19
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e diagnostico(corrosion(C, no)) e diagnostico(shortcircuit(C, yes))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, no) e shortcircuit(C, yes)]
 	entao [cria_facto(solucao(C, replace_CMP_sensor))].
 
 regra 20
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e diagnostico(corrosion(C, no)) e diagnostico(shortcircuit(C, no)) e diagnostico(cable(C, yes))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, no) e shortcircuit(C, no) e cable(C, yes)]
 	entao [cria_facto(problema(C, faulty_wires_between_camshaft_position_sensor_and_ECU))].
 
 regra 21
@@ -122,7 +122,7 @@ regra 21
 	entao [cria_facto(solucao(C, replace_wires_between_the_sensor_and_the_ECU))].
 
 regra 22
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e diagnostico(corrosion(C, no)) e diagnostico(shortcircuit(C, no)) e diagnostico(cable(C, no))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, no) e shortcircuit(C, no) e cable(C, no)]
 	entao [cria_facto(problema(C, control_unit_Faulty))].
 
 regra 23
@@ -130,15 +130,15 @@ regra 23
 	entao [cria_facto(solucao(C, replace_unit))].
 
 regra 24
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, yes))]
+	se [codiagnostico(C, p0344) e corrosion(C, yes)]
 	entao [cria_facto(problema(C, sensor_has_problem))].
 
 regra 25
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, yes))]
+	se [codiagnostico(C, p0344) e corrosion(C, yes)]
 	entao [cria_facto(solucao(C, clean_sensor_with_electric_cleaner))].
 
 regra 26
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C, 5)) e diagnostico(signalwire(C, 5)) e diagnostico(ground(C, yes))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C, 5)) e diagnostico(signalwire(C, 5)) e ground(C, yes)]
 	entao [cria_facto(problema(C, camshaft_position_sensor_damaged))].
 
 regra 27
@@ -146,51 +146,51 @@ regra 27
 	entao [cria_facto(solucao(C, substitute_camshaft_position))].
 
 regra 28
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))].
 
 regra 29
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(problema(C, ecu_Error))].
 
 regra 30
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(problema(C, ecu_not_plugged))].
 
 regra 31
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 32
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
 	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))].
 
 regra 33
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
 	entao [cria_facto(problema(C, ecu_Error))].
 	
 regra 34
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
 	entao [cria_facto(problema(C, ecu_not_plugged))].
 
 regra 35
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
 	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 36
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e diagnostico(ground(C, no))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
 	entao [cria_facto(problema(C, incomplete_wiring_camshaft_position))].
 
 regra 37
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e diagnostico(ground(C, no))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
 	entao [cria_facto(problema(C, ecu_Error))].
 	
 regra 38
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e diagnostico(ground(C, no))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
 	entao [cria_facto(problema(C, ecu_not_plugged))].
 
 regra 39
-	se [codiagnostico(C, p0344) e diagnostico(corrosion(C, no)) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e diagnostico(ground(C, no))]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
 	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 40
@@ -216,9 +216,9 @@ regra 43
 facto(1,codigo(meu_diagnostico, p0340)).
 facto(2,sintoma(meu_diagnostico, long_engine_cranking_time)).
 facto(3,sintoma(meu_diagnostico, hard_shifting)).
-facto(4,bepoff(meu_diagnostico, 12)).
-facto(5,bepon(meu_diagnostico, 14)).
-facto(6,measurementV(meu_diagnostico,7)).
+facto(9,bepoff(meu_diagnostico, 12)).
+facto(10,bepon(meu_diagnostico, 14)).
+facto(6,measurementV(meu_diagnostico, 7)).
 facto(7,corrosion(meu_diagnostico, no)).
 facto(8,shortcircuit(meu_diagnostico, yes)).
 
