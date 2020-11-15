@@ -1,16 +1,16 @@
 package org.engcia.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Justification {
     private String rule;
-    private List<Fact> lhs;
+    private Set<Fact> lhs;
     private Fact conclusion;
 
-    public Justification(String rule, List<Fact> lhs, Fact conclusion) {
+    public Justification(String rule, Set<Fact> lhs, Fact conclusion) {
         this.rule = rule;
-        this.lhs = new ArrayList<Fact>(lhs);
+        this.lhs = new LinkedHashSet<>(lhs);
         this.conclusion = conclusion;
     }
 
@@ -18,7 +18,7 @@ public class Justification {
         return this.rule;
     }
 
-    public List<Fact> getLhs() {
+    public Set<Fact> getLhs() {
         return this.lhs;
     }
 

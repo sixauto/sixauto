@@ -55,6 +55,11 @@
       <version>${slf4j-version}</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.11</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -1,8 +1,6 @@
 package org.engcia.CarTrouble;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.drools.core.event.DefaultAgendaEventListener;
 import org.kie.api.definition.rule.Rule;
@@ -15,8 +13,8 @@ import org.engcia.model.Justification;
 @SuppressWarnings("restriction")
 public class TrackingAgendaEventListener extends DefaultAgendaEventListener{
     private List<Match> matchList = new ArrayList<Match>();
-    private List<Fact> lhs = new ArrayList<Fact>();
-    private List<Fact> rhs = new ArrayList<Fact>();
+    private Set<Fact> lhs = new LinkedHashSet<>();
+    private Set<Fact> rhs = new LinkedHashSet<>();
 
     public void resetLhs() {
         lhs.clear();

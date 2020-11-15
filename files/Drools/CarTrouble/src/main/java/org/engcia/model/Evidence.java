@@ -1,38 +1,32 @@
 package org.engcia.model;
 
+import org.engcia.CarTrouble.CarTrouble;
+
+import java.util.Objects;
+
 public class Evidence extends Fact{
-    public static final String P0340 = "Is the error code P0340 (CMP Sensor circuit) present?";
-    public static final String P0341 = "Is the error code P0341 (CMP Sensor circuit performance) present?";
-    public static final String P0342 = "Is the error code P0342 (CMP Sensor circuit low input) present?";
-    public static final String P0343 = "Is the error code P0343 (CMP Sensor circuit intermittent) present?";
-    public static final String P0344 = "Is the error code P0344 (CMP Sensor circuit high input) present?";
 
+    public static final String P0340 = "Error code P0340 present";
+    public static final String P0341 = "Error code P0341 present";
+    public static final String P0342 = "Error code P0342 present";
+    public static final String P0343 = "Error code P0343 present";
+    public static final String P0344 = "Error code P0344 present";
+    public static final String FLOW_1 = "Flow nr. 1 (calculated either by the error codes present or by symptom analysis)";
+    public static final String FLOW_2 = "Flow nr. 2 (calculated either by the error codes present or by symptom analysis)";
+    public static final String SENSOR_NOT_AT_5V = "Sensor electric potential is not at 5 volts";
+    public static final String SENSOR_AT_5V = "Sensor electric potential is at 5 volts";
+    public static final String BATTERY_VOLTAGE_NOT_BELOW_12V_14V = "Battery electric potential not below 12 volts with the engine off and not below 14 volts with engine on";
+    public static final String SENSOR_WITHOUT_CORROSION_OIL = "Sensor connection does not have corrosion, damage neither is covered by oil";
+    public static final String NO_SHORT_CIRCUIT = "A short circuit is not present";
+    public static final String NO_CABLE_MISSING_DISCONNECTED = "No cable(s) is missing/disconnected";
+    public static final String SENSOR_WITHOUT_CORROSION = "Sensor without corrosion";
+    public static final String SENSOR_NOT_AT_5V_IGNITION_ON_CONNECTOR_UNPLUGGED = "Electric potential is not at 5-volt on the signal wire with the ignition on and the connector unplugged (No 5V Ignition ON Connector Off 5V-IO-CO)";
+    public static final String GROUND_WIRE_GROUNDED = "Ground wire grounded";
 
-    //Common to both flows
-    public static final String SENSOR_5V = "Using a digital multimeter, is the sensor electric potential at 5 volts?";
-
-    //FLOW 1
-    public static final String BATTERY_VOLTAGE_BELOW_12V_14V = "Is the battery electric potential below 12 volts with the engine off and below 14 volts with engine on?";
-    public static final String SENSOR_CORROSION_OIL = "Does the sensor connection has any corrosion, damage or is covered by oil?";
-    public static final String SHORT_CIRCUIT = "Verify with a multimeter if you have a short circuit. Do you?";
-    public static final String CABLE_MISSING_DISCONNECTED = "Is there any cable missing or disconnected?";
-
-    //FLOW 2
-    public static final String SENSOR_CORROSION = "Can you see any signs of corrosion on the sensor?";
-    public static final String SENSOR_5V_IGNITION_ON_CONNECTOR_UNPLUGGED = "Can you get 5-volt on the signal wire with the ignition on and the connector unplugged?";
-    public static final String GROUND_WIRE_GROUNDED = "Is the ground wire grounded?";
-
-
-    private String evidence;
     private String value;
-
-    public Evidence(String ev, String v) {
-        evidence = ev;
-        value = v;
-    }
-
-    public String getEvidence() {
-        return evidence;
+    public Evidence(String value) {
+        this.value = value;
+        CarTrouble.agendaEventListener.addRhs(this);
     }
 
     public String getValue() {
@@ -40,8 +34,19 @@ public class Evidence extends Fact{
     }
 
     public String toString() {
-        return (evidence + " = " + value);
+        return (value);
     }
 
-}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Evidence)) return false;
+        Evidence evidence = (Evidence) o;
+        return getValue().equals(evidence.getValue());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getValue());
+    }
+}

@@ -9,6 +9,7 @@
 :-op(500,fy,nao).
 :-op(500,xfx,ou).
 :-op(600,xfy,e).
+:-op(700,xfy,ou).
 
 :-dynamic justifica/3.
 
@@ -47,7 +48,7 @@ dispara_regras(_, _, []).
 
 facto_esta_numa_condicao(F,[F  e _]).
 
-facto_esta_numa_condicao(F,[avalia(F1)  e _]):- F=..[H,H1|_],F1=..[H,H1|_].
+facto_esta_numa_condicao(F,[diagnostico(F1)  e _]):- F=..[H,H1|_],F1=..[H,H1|_].
 
 facto_esta_numa_condicao(F,[_ e Fs]):- facto_esta_numa_condicao(F,[Fs]).
 
@@ -59,18 +60,18 @@ facto_esta_numa_condicao(F,[_ ou Fs]):- facto_esta_numa_condicao(F,[Fs]).
 
 facto_esta_numa_condicao(F,[F]).
 
-facto_esta_numa_condicao(F,[avalia(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
+facto_esta_numa_condicao(F,[diagnostico(F1)]):-F=..[H,H1|_],F1=..[H,H1|_].
 
 
-verifica_condicoes([nao avalia(X) e Y],[nao X|LF]):- !,
-	\+ avalia(_,X),
+verifica_condicoes([nao diagnostico(X) e Y],[nao X|LF]):- !,
+	\+ diagnostico(_,X),
 	verifica_condicoes([Y],LF).
-verifica_condicoes([avalia(X) e Y],[N|LF]):- !,
-	avalia(N,X),
+verifica_condicoes([diagnostico(X) e Y],[N|LF]):- !,
+	diagnostico(N,X),
 	verifica_condicoes([Y],LF).
 
-verifica_condicoes([nao avalia(X)],[nao X]):- !, \+ avalia(_,X).
-verifica_condicoes([avalia(X)],[N]):- !, avalia(N,X).
+verifica_condicoes([nao diagnostico(X)],[nao X]):- !, \+ diagnostico(_,X).
+verifica_condicoes([diagnostico(X)],[N]):- !, diagnostico(N,X).
 
 verifica_condicoes([nao X e Y],[nao X|LF]):- !,
 	\+ facto(_,X),
@@ -106,7 +107,7 @@ cria_facto(F,ID,LFactos):-
 
 
 
-avalia(N,P):-	P=..[Functor,Entidade,Operando,Valor],
+diagnostico(N,P):-	P=..[Functor,Entidade,Operando,Valor],
 		P1=..[Functor,Entidade,Valor1],
 		facto(N,P1),
 		compara(Valor1,Operando,Valor).
@@ -227,11 +228,11 @@ encontra_premissas_falsas([X], [X]).
 encontra_premissas_falsas([]).
 
 explica_porque_nao([],_).
-explica_porque_nao([nao avalia(X)|LPF],Nivel):-
+explica_porque_nao([nao diagnostico(X)|LPF],Nivel):-
 	!,
 	formata(Nivel),write('A condi��o nao '),write(X),write(' � falsa'),nl,
 	explica_porque_nao(LPF,Nivel).
-explica_porque_nao([avalia(X)|LPF],Nivel):-
+explica_porque_nao([diagnostico(X)|LPF],Nivel):-
 	!,
 	formata(Nivel),write('A condi��o '),write(X),write(' � falsa'),nl,
 	explica_porque_nao(LPF,Nivel).

@@ -1,9 +1,13 @@
 package org.engcia.CarTrouble;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
+import org.engcia.model.Symptom;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -21,7 +25,10 @@ public class CarTrouble {
     public static TrackingAgendaEventListener agendaEventListener;
     public static Map<Integer, Justification> justifications;
 
+    private static BufferedReader br;
+
     public static final void main(String[] args) {
+        br = new BufferedReader(new InputStreamReader(System.in));
         UI.uiInit();
         runEngine();
         UI.uiClose();
@@ -40,7 +47,7 @@ public class CarTrouble {
             kSession.addEventListener(agendaEventListener);
 
             // Query listener
-            ViewChangedEventListener listener = new ViewChangedEventListener() {
+            ViewChangedEventListener listenerConclusions = new ViewChangedEventListener() {
                 @Override
                 public void rowDeleted(Row row) {
                 }
@@ -48,12 +55,27 @@ public class CarTrouble {
                 @Override
                 public void rowInserted(Row row) {
                     Conclusion conclusion = (Conclusion) row.get("$conclusion");
+
+                    if(conclusion.getDescription().equals(Conclusion.UNKNOWN_PROBLEM)){
+                        System.out.println(Conclusion.UNKNOWN_PROBLEM);
+                        System.exit(0);
+                    }
+
                     System.out.println("\n");
                     System.out.println(">>>" + conclusion.toString());
 
-                    //System.out.println(CarTrouble.justifications);
-                    How how = new How(CarTrouble.justifications);
-                    System.out.println(how.getHowExplanation(conclusion.getId()));
+                    System.out.println("Do you want to know how did the system reach this conclusion?");
+                    String answer = null;
+                    try {
+                        answer = br.readLine();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (answer.equals("yes")){
+                        How how = new How(CarTrouble.justifications);
+                        how.getHowExplanation();
+                    }
 
                     // stop inference engine after as soon as got a conclusion
                     kSession.halt();
@@ -66,9 +88,11 @@ public class CarTrouble {
 
             };
 
-            LiveQuery query = kSession.openLiveQuery("Conclusions", null, listener);
+            LiveQuery query = kSession.openLiveQuery("Conclusions", null, listenerConclusions);
 
             System.out.println("\nRunning Six@uto expert system...\n\n");
+
+            UI.askUserForErrorCodes();
             kSession.fireAllRules();
 
             // kSession.fireUntilHalt();
