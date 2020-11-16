@@ -216,8 +216,8 @@ regra 43
 facto(1,codigo(meu_diagnostico, p0340)).
 facto(2,sintoma(meu_diagnostico, long_engine_cranking_time)).
 facto(3,sintoma(meu_diagnostico, hard_shifting)).
-facto(9,bepoff(meu_diagnostico, 12)).
-facto(10,bepon(meu_diagnostico, 14)).
+facto(4,bepoff(meu_diagnostico, 12)).
+facto(5,bepon(meu_diagnostico, 14)).
 facto(6,measurementV(meu_diagnostico, 7)).
 facto(7,corrosion(meu_diagnostico, no)).
 facto(8,shortcircuit(meu_diagnostico, yes)).
