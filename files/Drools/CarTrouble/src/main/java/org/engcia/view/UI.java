@@ -5,9 +5,14 @@ import org.engcia.CarTrouble.CarTrouble;
 import org.engcia.model.Evidence;
 import org.engcia.model.Hypothesis;
 import org.engcia.model.Symptom;
+import org.engcia.model.TroubleCode;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.kie.api.runtime.ClassObjectFilter;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
@@ -52,28 +57,46 @@ public class UI {
         }
     }
 
-    public static void askUserForErrorCodes(){
-        System.out.println("Which error codes do you have present in your OBD-II connector? [write the codes upper cased separated by commas]");
-        String userAnswer = readLine();
-        userAnswer = StringUtils.deleteWhitespace(userAnswer);
-        String errorCodes[] = userAnswer.split(",");
+    public static void askUserForErrorCodes() {
+
+        System.out.println("Do you want to write the error codes manually or do you want to read from file? [manual/file]");
+        String method = readLine();
+        String errorCodes[] = new String[0];
+        if (method.equals("manual")) {
+            System.out.println("Which error codes do you have present in your OBD-II connector? [write the codes upper cased separated by commas]");
+            String userAnswer = readLine();
+            userAnswer = StringUtils.deleteWhitespace(userAnswer);
+            errorCodes = userAnswer.split(",");
+
+        } else if (method.equals("file")) {
+            List<TroubleCode> troubleCodeList = readCodesFromFile();
+            errorCodes = new String[troubleCodeList.size()];
+            int i = 0;
+            System.out.print("\n... The system read the following codes from the file: ");
+            for(TroubleCode troubleCode : troubleCodeList){
+                System.out.print(troubleCode.getCode() + " ");
+                errorCodes[i] = troubleCode.getCode();
+                i++;
+            }
+            System.out.println("\n");
+        }
+
         String notKnownCodes = "";
         boolean ableToStartInferenceEngine = false;
-        for(int i = 0; i < errorCodes.length; i++){
-            if(errorCodeList.contains(errorCodes[i])){
+        for (int i = 0; i < errorCodes.length; i++) {
+            if (errorCodeList.contains(errorCodes[i])) {
                 CarTrouble.KS.insert(new Evidence(errorCodeMapping.get(errorCodes[i])));
                 ableToStartInferenceEngine = true;
             } else {
                 notKnownCodes += errorCodes[i] + " ";
             }
         }
-        if(!notKnownCodes.equals("") && ableToStartInferenceEngine){
+        if (!notKnownCodes.equals("") && ableToStartInferenceEngine) {
             System.out.println("The system doesn't know the following codes: " + notKnownCodes + ". We will ignore those codes and run the system based on the remaining codes.");
-        } else if (!ableToStartInferenceEngine){
+        } else if (!ableToStartInferenceEngine) {
             System.out.println("Unfortunately, the system doesn't know any of the codes you provided. We cannot help you.");
             System.exit(0);
         }
-
     }
 
     public static boolean answer(String ev, String v) {
@@ -174,5 +197,27 @@ public class UI {
 
         userAnswer = StringUtils.deleteWhitespace(userAnswer);
         return userAnswer.split(",");
+    }
+
+    private static List<TroubleCode> readCodesFromFile() {
+        String fileName = "obd-II-test-file2.json";
+
+        JSONParser jsonParser = new JSONParser();
+        List<TroubleCode> troubleCodeList = new ArrayList<>();
+
+        try {
+            JSONArray jsonArray = (JSONArray) jsonParser.parse(new FileReader(fileName));
+            for (Object jsonObject : jsonArray) {
+                TroubleCode troubleCode = new TroubleCode();
+                troubleCode.setCode((String) ((JSONObject) jsonObject).get("code"));
+                troubleCode.setDescription((String) ((JSONObject) jsonObject).get("description"));
+                troubleCode.setManufacturer((String) ((JSONObject) jsonObject).get("manufacturer"));
+                troubleCode.setSystem((String) ((JSONObject) jsonObject).get("system"));
+                troubleCodeList.add(troubleCode);
+            }
+        } catch (Exception e) {
+
+        }
+        return troubleCodeList;
     }
 }

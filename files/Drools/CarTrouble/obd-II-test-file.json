@@ -1,0 +1,14 @@
+[
+  {
+  "code": "P0340",
+  "system": "Camshaft",
+  "manufacturer": "Generic",
+  "description": "Camshaft Position Sensor Circuit Malfunction"
+  },
+  {
+  "code": "P0341",
+  "system": "Camshaft",
+  "manufacturer": "Generic",
+  "description": "Camshaft Position Sensor Circuit Range/Performance"
+  }
+]
