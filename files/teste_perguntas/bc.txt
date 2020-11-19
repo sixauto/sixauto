@@ -1,0 +1,25 @@
+:-dynamic facto/2.
+
+regra 1
+	se [codigo(c, p0340) e sintoma(c, long_engine_cranking_time)]
+	entao [codiagnostico(c, p0341_p0342_p0343)].
+
+regra 2
+	se [codiagnostico(c, p0341_p0342_p0343)]
+	entao [problema(c, battery_problem)].
+
+facto(1, codigo(c, p0340)).
+facto(2, codigo(c, p0341)).
+facto(3, codigo(c, p0342)).
+facto(4, codigo(c, p0343)).
+
+facto(5, sintoma(c, long_engine_cranking_time)).
+facto(6, sintoma(c, engine_starts_without_problems)).
+
+facto(7, codiagnostico(c, p0341_p0342_p0343)).
+facto(8, codiagnostico(c, p0344)).
+
+facto(9, diagnosticoLigado(potencia, valor)).
+facto(10, diagnosticoDesligado(potencia, valor)).
+
+
