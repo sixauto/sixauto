@@ -13,28 +13,21 @@ facto_dispara_regras(sintoma(_, engine_in_rough_idle), [6, 8]).
 facto_dispara_regras(sintoma(_, hard_engine_starting_condition), [9]).
 facto_dispara_regras(sintoma(_, engine_dies_suddenly), [10]).
 facto_dispara_regras(sintoma(_, loss_power_in_engine), [11]).
-facto_dispara_regras(codiagnostico(_, p0341_p0342_p0343), [12, 14, 15, 16, 17, 18, 19, 20, 22]).
-facto_dispara_regras(codiagnostico(_, p0344), [24, 25, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]).
-facto_dispara_regras(bepon(_,_), [12, 14, 15, 16, 17, 18, 19, 20, 22]).
-facto_dispara_regras(bepoff(_,_), [12, 14, 15, 16, 17, 18, 19, 20, 22]).
-facto_dispara_regras(measurementV(_,_), [14, 15, 16, 17, 18, 19, 20, 22, 26, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39]).
-facto_dispara_regras(corrosion(_,_), [16, 17, 18, 19, 20, 22]).
-facto_dispara_regras(shortcircuit(_,_), [18, 19, 20, 22]).
-facto_dispara_regras(cable(_,_), [20, 22]).
-facto_dispara_regras(problema(_, faulty_wires_between_camshaft_position_sensor_and_ECU), [21]).
-facto_dispara_regras(problema(_, control_unit_Faulty), [23]).
-facto_dispara_regras(signalwire(_,_), [26, 32, 33, 34, 35, 36, 37, 38, 39]).
-facto_dispara_regras(ground(_,_), [26]).
-facto_dispara_regras(problema(_, camshaft_position_sensor_damaged), [36, 37, 38, 39]).
-facto_dispara_regras(problema(_, incomplete_wiring_camshaft_position), [40]).
-facto_dispara_regras(problema(_, ecu_Error), [41]).
-facto_dispara_regras(problema(_, ecu_not_plugged), [42]).
-facto_dispara_regras(problema(_, low_battery_voltage), [43]).
+facto_dispara_regras(codiagnostico(_, p0341_p0342_p0343), [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]).
+facto_dispara_regras(codiagnostico(_, p0344), [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).
+facto_dispara_regras(bepon(_,_), [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]).
+facto_dispara_regras(bepoff(_,_), [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]).
+facto_dispara_regras(measurementV(_,_), [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).
+facto_dispara_regras(corrosion(_,_), [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]).
+facto_dispara_regras(shortcircuit(_,_), [18, 19, 20, 21, 22, 23]).
+facto_dispara_regras(cable(_,_), [20, 21, 22, 23]).
+facto_dispara_regras(signalwire(_,_), [26, 27, 32, 33, 34, 35, 36, 37, 38, 39, 44, 45, 46, 47, 48, 49, 50, 51]).
+facto_dispara_regras(ground(_,_), [26, 27, 36, 37, 38, 39, 48, 49, 50, 51]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-ultimo_facto(8).
-% ultima_regra(36).
+ultimo_facto(9).
+%ultima_regra(51).
 
 
 regra 1
@@ -82,11 +75,11 @@ regra 11
 	entao [cria_facto(codiagnostico(C, p0344))].
 
 regra 12
-	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,<,12) e bepon(C,<,14))]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,<,12)) e diagnostico(bepon(C,<,14))]
 	entao [cria_facto(problema(C, battery_problem))].
 
 regra 13
-	se [problema(C, battery_problem)]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,<,12)) e diagnostico(bepon(C,<,14))]
 	entao [cria_facto(solucao(C, charge_or_replace_battery))].
 
 regra 14
@@ -118,7 +111,7 @@ regra 20
 	entao [cria_facto(problema(C, faulty_wires_between_camshaft_position_sensor_and_ECU))].
 
 regra 21
-	se [problema(C, faulty_wires_between_camshaft_position_sensor_and_ECU)]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, no) e shortcircuit(C, no) e cable(C, yes)]
 	entao [cria_facto(solucao(C, replace_wires_between_the_sensor_and_the_ECU))].
 
 regra 22
@@ -126,7 +119,7 @@ regra 22
 	entao [cria_facto(problema(C, control_unit_Faulty))].
 
 regra 23
-	se [problema(C, control_unit_Faulty)]
+	se [codiagnostico(C, p0341_p0342_p0343) e diagnostico(bepoff(C,>=,12)) e diagnostico(bepon(C,>=,14)) e diagnostico(measurementV(C,\==,5)) e corrosion(C, no) e shortcircuit(C, no) e cable(C, no)]
 	entao [cria_facto(solucao(C, replace_unit))].
 
 regra 24
@@ -142,7 +135,7 @@ regra 26
 	entao [cria_facto(problema(C, camshaft_position_sensor_damaged))].
 
 regra 27
-	se [problema(C, camshaft_position_sensor_damaged)]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C, 5)) e diagnostico(signalwire(C, 5)) e ground(C, yes)]
 	entao [cria_facto(solucao(C, substitute_camshaft_position))].
 
 regra 28
@@ -194,20 +187,54 @@ regra 39
 	entao [cria_facto(problema(C, low_battery_voltage))].
 
 regra 40
-	se [problema(C, incomplete_wiring_camshaft_position)]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(solucao(C, replace_or_add_wires_between_the_sensor_to_ECU))].
 
 regra 41
-	se [problema(C, ecu_Error)]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(solucao(C, replace_ECU_or_flash_system))].
 
 regra 42
-	se [problema(C, ecu_not_plugged)]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(solucao(C, plug_ECU))].
 
 regra 43
-	se [problema(C, low_battery_voltage)]
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,\==,5))]
 	entao [cria_facto(solucao(C, charge_or_replace_car_battery))].
+
+regra 44
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	entao [cria_facto(solucao(C, replace_or_add_wires_between_the_sensor_to_ECU))].
+
+regra 45
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	entao [cria_facto(solucao(C, replace_ECU_or_flash_system))].
+
+regra 46
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	entao [cria_facto(solucao(C, plug_ECU))].
+
+regra 47
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,\==,5))]
+	entao [cria_facto(solucao(C, charge_or_replace_car_battery))].
+
+regra 48
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
+	entao [cria_facto(solucao(C, replace_or_add_wires_between_the_sensor_to_ECU))].
+
+regra 49
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
+	entao [cria_facto(solucao(C, replace_ECU_or_flash_system))].
+
+regra 50
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
+	entao [cria_facto(solucao(C, plug_ECU))].
+
+regra 51
+	se [codiagnostico(C, p0344) e corrosion(C, no) e diagnostico(measurementV(C,==,5)) e diagnostico(signalwire(C,==,5)) e ground(C, no)]
+	entao [cria_facto(solucao(C, charge_or_replace_car_battery))].
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -220,6 +247,7 @@ facto(4,bepoff(meu_diagnostico, 12)).
 facto(5,bepon(meu_diagnostico, 14)).
 facto(6,measurementV(meu_diagnostico, 7)).
 facto(7,corrosion(meu_diagnostico, no)).
-facto(8,shortcircuit(meu_diagnostico, yes)).
+facto(8,shortcircuit(meu_diagnostico, no)).
+facto(9,cable(meu_diagnostico, yes)).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
